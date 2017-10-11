@@ -1,0 +1,6 @@
+com/sebastian_daschner/sample/GreetingStrategyExposer.class
+com/sebastian_daschner/sample/BackPressureResource.class
+com/sebastian_daschner/sample/TestResource.class
+com/sebastian_daschner/sample/Greeter.class
+com/sebastian_daschner/sample/GreeterMain.class
+com/sebastian_daschner/sample/JAXRSConfiguration.class

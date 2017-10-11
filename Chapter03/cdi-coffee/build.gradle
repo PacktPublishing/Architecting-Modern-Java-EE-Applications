@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile 'javax:javaee-api:7.0'
+    testCompile 'junit:junit:4.12'
+}
