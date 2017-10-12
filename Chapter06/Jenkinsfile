@@ -1,0 +1,33 @@
+node {
+    prepare()
+
+    stage('build') {
+        build()
+    }
+
+    parallel failFast: false,
+            'integration-test': {
+                stage('integration-test') {
+                    integrationTest()
+                }
+            },
+            'analysis': {
+                stage('analysis') {
+                    analysis()
+                }
+            }
+
+    stage('system-test') {
+        systemTest()
+    }
+
+    stage('performance-test') {
+        performanceTest()
+    }
+
+    stage('deploy') {
+        deployProduction()
+    }
+}
+
+// method definitions
