@@ -1,0 +1,84 @@
+node {
+    prepare()
+
+    stage('build') {
+        build()
+    }
+
+    parallel failFast: false,
+            'integration-test': {
+                stage('integration-test') {
+                    integrationTest()
+                }
+            },
+            'analysis': {
+                stage('analysis') {
+                    analysis()
+                }
+            }
+
+    stage('system-test') {
+        systemTest()
+    }
+
+    stage('performance-test') {
+        performanceTest()
+    }
+
+    stage('deploy') {
+        deployProduction()
+    }
+
+}
+
+// method definitions
+
+def prepare() {
+    deleteCachedDirs()
+    checkoutGitRepos()
+    prepareMetaInfo()
+}
+
+// ...
+
+def build() {
+    buildMaven()
+    testReports()
+    publishArtifact()
+    addBuildMetaInfo()
+
+    buildPushDocker(dockerImage, 'car-manufacture')
+    buildPushDocker(databaseMigrationDockerImage, 'car-manufacture/database-migrations')
+    addDockerMetaInfo()
+}
+
+// ...
+
+def deploy(String namespace, String dockerImage, String databaseVersion) {
+    echo "deploying $dockerImage to Kubernetes $namespace"
+
+    updateDeploymentImages(dockerImage, namespace, databaseVersion)
+    applyDeployment(namespace)
+    watchRollout(namespace)
+}
+
+// ...
+
+def updateDeploymentImages(String dockerImage, String namespace, String databaseVersion) {
+    updateImage(dockerImage, 'car-manufacture/deployment/$namespace/*.yaml')
+    updateDatabaseVersion(databaseVersion 'car-manufacture/deployment/$namespace/*.yaml')
+
+    dir('car-manufacture') {
+        commitPush("[jenkins] updated $namespace image to $dockerImage and database version $databaseVersion")
+    }
+}
+
+// ...
+
+def applyDeployment(namespace) {
+    sh "kubectl apply --namespace=$namespace -f car-manufacture/deployment/$namespace/"
+}
+
+def watchRollout(namespace) {
+    sh "kubectl rollout status --namespace=$namespace deployments car-manufacture"
+}

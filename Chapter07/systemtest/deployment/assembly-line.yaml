@@ -1,0 +1,28 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: assembly-line
+spec:
+  selector:
+    app: assembly-line
+  ports:
+    - port: 8080
+---
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: assembly-line
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: assembly-line
+    spec:
+      containers:
+      - name: assembly-line
+        image: docker.example.com/wiremock:2.6
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+---

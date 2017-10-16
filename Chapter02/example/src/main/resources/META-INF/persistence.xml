@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- used in example with multiple datasources -->
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <persistence-unit name="vehicle" transaction-type="JTA">
+        <jta-data-source>jdbc/VehicleDB</jta-data-source>
+    </persistence-unit>
+    <persistence-unit name="order" transaction-type="JTA">
+        <jta-data-source>jdbc/OrderDB</jta-data-source>
+    </persistence-unit>
+</persistence>
