@@ -6,7 +6,11 @@ Java EE 8 brings with it a load of features, mainly targeting newer architecture
 
 ## Instructions and Navigation
 All of the code is organized into folders. Each folder starts with a number followed by the application name. For example, Chapter02.
-* Chapters 1, 4, 9, 10, and 11 does not have code files
+
+These examples match the code snippets shown in the book.They are aimed to give the readers an idea of the material.The examples can be viewed in an IDE and all build project examples can be compiled and packaged successfully.
+However, not all examples are meant for deployment to an application server.This is due to the variations in the examples.The same reasoning caused comments put into JavaDoc and `package-info.java` files that explain the structure of these examples.These comments would not be part of an enterprise project.
+
+Chapters 3 and 4 does not have any code files.
 
 The code will look like the following:
 ```
